@@ -4,6 +4,10 @@
   </head>
   <body>
     <h1>Headlines</h1>
+    <form>
+      <input type="text" name="publication" placeholder="search" />
+      <input type="submit" value="Submit" />
+    </form>
     {% for article in articles %}
       <b><a href="{{article.link}}">{{article.title}}</a></br><br />
       <i>{{article.published}}</i><br />
@@ -11,4 +15,4 @@
     {% endfor %}
     <br /><br /><br /><br />
   </body>
-</html>
+</html>git add headlines
