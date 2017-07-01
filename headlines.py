@@ -4,6 +4,9 @@ import feedparser
 #imports Flask from the package flask
 from flask import Flask
 
+#imports the render_template for HTML using Jinja
+from flask import render_template
+
 #Obtain the RSS feeds
 RSS_FEEDS = {'bbc':'http://feeds.bbci.co.uk/news/rss.xml', 'cnn':'http://rss.cnn.com/rss/edition.rss', 'fox':'http://feeds.foxnews.com/foxnews/latest', 'iol':'http://rss.iol.io/iol/news'}
 
@@ -36,6 +39,7 @@ def fox():
 """
 ---This is dynamic routing---
 """
+
 #Python decorator for all the publications:
 @app.route("/")
 @app.route("/<publication>")
@@ -43,14 +47,10 @@ def fox():
 def get_news(publication='bbc'):
   feed = feedparser.parse(RSS_FEEDS[publication])
   first_article = feed['entries'][0]
-  return """<html>
-    <body>
-      <h1> Headlines </h1>
-      <b>{0}</b> <br/>
-      <i>{1}</i> <br/>
-      <p>{2}</p> <br/>
-    </body>
-    </html>""".format(first_article.get("title"), first_article.get("published"), first_article.get("summary"))
+  
+  #passing dynamic data to the template
+  return render_template("home.html",articles = feed['entries'])
+  
   
 #Python idiom that evaluates to true if the application is run directly. Prevents python scripts form being unintentionally run when they are imported into other Python files. 
 if __name__ == '__main__':
